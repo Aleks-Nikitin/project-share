@@ -21,18 +21,12 @@ import {
 } from "@/components/ui/card";
 export default function FeaturedProject({ project }: { project: Project }) {
   return (
-    <Link
-      href={`projects/${project.id}`}
-      className="py-5 border border-zinc-800/80"
-    >
+    <Link href={`projects/${project.id}`} className="py-5 border-zinc-800/80">
       <Card className="relative mx-auto w-full pt-0 bg-[#0B0F17] text-white">
         <div className=" bg-black/35" />
         <CardHeader>
-          <CardTitle>Design systems meetup</CardTitle>
-          <CardDescription>
-            A practical talk on component APIs, accessibility, and shipping
-            faster.
-          </CardDescription>
+          <CardTitle>{project.title}</CardTitle>
+          <CardDescription>{project.description}</CardDescription>
         </CardHeader>
         <CardFooter className="bg-[#0B0F17] px-0 border-0 flex flex-col gap-2">
           <div className="flex flex-wrap gap-2">

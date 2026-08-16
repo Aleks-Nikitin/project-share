@@ -5,6 +5,7 @@ import NavigationTags from "../common/navigation-tags";
 import Link from "next/link";
 import { EyeIcon, TrendingUp, UsersIcon } from "lucide-react";
 import FeaturedProject from "./featured-project";
+
 const projectData = [
   {
     id: "food-ordering-app",
@@ -19,6 +20,15 @@ const projectData = [
     id: "resume-application-tracker",
     title: "Resume application tracker",
     description: "Track and manage your job applications with ease.",
+    votes: 15,
+    tags: ["React", "TypeScript", "Next.js"],
+    avatar: "/path/to/avatar1.jpg",
+    username: "jane_smith",
+  },
+  {
+    id: "twitter-clone",
+    title: "Twitter clone",
+    description: "A simple Twitter clone built with React and Express.js.",
     votes: 15,
     tags: ["React", "TypeScript", "Next.js"],
     avatar: "/path/to/avatar1.jpg",
