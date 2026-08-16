@@ -29,13 +29,13 @@ export default function ProjectSection() {
       <div className="wrapper">
         <NavigationTags
           tags={[
-            "All",
-            "Popular",
-            "Full-Stack",
-            "Frontend",
-            "Backend",
-            "Mobile",
-            "AI/ML",
+            { name: "All", route: "/" },
+            { name: "Popular", route: "/popular" },
+            { name: "Full-Stack", route: "/full-stack" },
+            { name: "Frontend", route: "/frontend" },
+            { name: "Backend", route: "/backend" },
+            { name: "Mobile", route: "/mobile" },
+            { name: "AI/ML", route: "/ai-ml" },
           ]}
         ></NavigationTags>
         <div className="flex flex-col items-center justify-center text-center lg:py-8 py-5">
