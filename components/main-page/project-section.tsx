@@ -4,23 +4,25 @@ import { cn } from "@/lib/utils";
 import NavigationTags from "../common/navigation-tags";
 import Link from "next/link";
 import { EyeIcon, TrendingUp, UsersIcon } from "lucide-react";
-import ProjectCard from "./project-card";
 import FeaturedProject from "./featured-project";
 const projectData = [
   {
-    icon: TrendingUp,
-    value: "1.2K",
-    label: "Projects shipped",
+    id: "food-ordering-app",
+    title: "Food ordering app",
+    description: "Order food from your favorite restaurants with ease.",
+    votes: 10,
+    tags: ["React", "TypeScript", "Next.js"],
+    avatar: "/path/to/avatar1.jpg",
+    username: "john_doe",
   },
   {
-    icon: UsersIcon,
-    value: "2.9K",
-    label: "Active inovators",
-  },
-  {
-    icon: EyeIcon,
-    value: "6.7K",
-    label: "Monthly visitors",
+    id: "resume-application-tracker",
+    title: "Resume application tracker",
+    description: "Track and manage your job applications with ease.",
+    votes: 15,
+    tags: ["React", "TypeScript", "Next.js"],
+    avatar: "/path/to/avatar1.jpg",
+    username: "jane_smith",
   },
 ];
 
@@ -40,11 +42,10 @@ export default function ProjectSection() {
           ]}
         ></NavigationTags>
         <div className="flex flex-col items-center justify-center text-center lg:py-8 py-5">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-12 max-w-2xl w-full">
-            <FeaturedProject></FeaturedProject>
-            {/* {projectData.map((stat) => (
-              <ProjectCard key={stat.label} {...stat} />
-            ))} */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-12 max-w-4xl w-full">
+            {projectData.map((project) => (
+              <FeaturedProject key={project.id} project={project} />
+            ))}
           </div>
         </div>
       </div>
