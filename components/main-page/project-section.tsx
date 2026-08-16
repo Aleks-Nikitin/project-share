@@ -15,6 +15,7 @@ const projectData = [
     tags: ["React", "TypeScript", "Next.js"],
     avatar: "/path/to/avatar1.jpg",
     username: "john_doe",
+    isFeatured: true,
   },
   {
     id: "resume-application-tracker",
@@ -24,6 +25,7 @@ const projectData = [
     tags: ["React", "TypeScript", "Next.js"],
     avatar: "/path/to/avatar1.jpg",
     username: "jane_smith",
+    isFeatured: false,
   },
   {
     id: "twitter-clone",
@@ -33,6 +35,7 @@ const projectData = [
     tags: ["React", "TypeScript", "Next.js"],
     avatar: "/path/to/avatar1.jpg",
     username: "jane_smith",
+    isFeatured: false,
   },
 ];
 
