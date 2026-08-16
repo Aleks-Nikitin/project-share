@@ -1,10 +1,11 @@
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import NavigationTags from "../common/navigation-tags";
 import Link from "next/link";
 import { EyeIcon, TrendingUp, UsersIcon } from "lucide-react";
-import StatsCard from "./stats-card";
-const statsData = [
+import ProjectCard from "./project-card";
+const projectData = [
   {
     icon: TrendingUp,
     value: "1.2K",
@@ -22,11 +23,22 @@ const statsData = [
   },
 ];
 
-export default function HeroSection() {
+export default function ProjectSection() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-[#0352c1] to-[#0f172a] text-white py-20 px-4 sm:px-6 lg:px-8">
+    <section className="relative bg-[#0B0F17] overflow-hidden text-white py-8 px-4 sm:px-6 lg:px-8">
       <div className="wrapper">
-        <div className="flex flex-col items-center justify-center text-center lg:py-24 py-12">
+        <NavigationTags
+          tags={[
+            "All",
+            "Popular",
+            "Full-Stack",
+            "Frontend",
+            "Backend",
+            "Mobile",
+            "AI/ML",
+          ]}
+        ></NavigationTags>
+        <div className="flex flex-col items-center justify-center text-center lg:py-8 py-5">
           <h1
             className="text-5xl sm:text-6xl
             lg:text-7xl font-bold tracking-tight mb-6
@@ -63,9 +75,9 @@ export default function HeroSection() {
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-12 max-w-2xl w-full">
-            {statsData.map((stat) => (
-              <StatsCard key={stat.label} {...stat} />
-            ))}
+            {/* {projectData.map((stat) => (
+              <ProjectCard key={stat.label} {...stat} />
+            ))} */}
           </div>
         </div>
       </div>

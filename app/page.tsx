@@ -1,10 +1,10 @@
-import FeaturedProducts from "@/components/landing-page/featured-products";
-import HeroSection from "@/components/landing-page/hero-section";
+import FeaturedProducts from "@/components/main-page/featured-project";
+import ProjectSection from "@/components/main-page/project-section";
 
 export default function Home() {
   return (
     <div className="">
-      <HeroSection></HeroSection>
+      <ProjectSection></ProjectSection>
       <FeaturedProducts></FeaturedProducts>
     </div>
   );

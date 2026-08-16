@@ -1,18 +1,12 @@
-import SectionHeader from "../common/section-header";
 import { FlameIcon, ArrowUpRightIcon } from "lucide-react";
 import Link from "next/link";
 import { buttonVariants } from "../ui/button";
 import { cn } from "@/lib/utils";
-export default function FeaturedProducts() {
+export default function FeaturedProject() {
   return (
     <section className="py-20 bg-muted/20">
       <div className="wrapper">
         <div className="flex items-center justify-between mb-8">
-          <SectionHeader
-            title="Featured Today"
-            icon={FlameIcon}
-            description="most populat projects"
-          />
           <Link
             href="/explore"
             className={cn(
