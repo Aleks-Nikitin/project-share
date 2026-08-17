@@ -1,6 +1,7 @@
 import { SquareTerminal } from "lucide-react";
 import Link from "next/link";
 import { buttonVariants } from "../ui/button";
+import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { cn } from "@/lib/utils";
 import SearchBar from "@/components/header/search-bar";
@@ -15,15 +16,27 @@ export default function Header({ className }: { className?: string }) {
           </span>
         </Link>
         <SearchBar placeholder="Search projects..." />
-        <Link
-          href="/submit"
-          className={cn(
-            buttonVariants({ variant: "default", size: "lg" }),
-            "text-base text-white px-8 shadow-lg bg-emerald-700 hover:bg-emerald-900",
-          )}
-        >
-          Submit Project
-        </Link>
+
+        <Show when="signed-out">
+          <SignInButton />
+          <SignUpButton>
+            <button className="bg-emerald-500 text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer">
+              Sign Up
+            </button>
+          </SignUpButton>
+        </Show>
+        <Show when="signed-in">
+          <Link
+            href="/submit"
+            className={cn(
+              buttonVariants({ variant: "default", size: "lg" }),
+              "text-base text-white px-8 shadow-lg bg-emerald-700 hover:bg-emerald-900",
+            )}
+          >
+            Submit Project
+          </Link>
+          <UserButton />
+        </Show>
         <Avatar>
           <AvatarImage src="https://github.com/shadcn.png" />
           <AvatarFallback>CN</AvatarFallback>

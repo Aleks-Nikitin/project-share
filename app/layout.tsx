@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ClerkProvider } from "@clerk/nextjs";
 import { Geist, Geist_Mono, Inika } from "next/font/google";
 import Header from "@/components/header/header";
 import "./globals.css";
@@ -26,7 +27,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${inika.variable}  h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <Header className="sticky top-0 z-50 bg-[#0B0F17]" />
+        <ClerkProvider>
+          <Header className="sticky top-0 z-50 bg-[#0B0F17]" />
+        </ClerkProvider>
         {children}
       </body>
     </html>
