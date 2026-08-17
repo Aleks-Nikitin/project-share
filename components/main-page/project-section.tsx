@@ -4,7 +4,8 @@ import { cn } from "@/lib/utils";
 import NavigationTags from "../common/navigation-tags";
 import Link from "next/link";
 import { EyeIcon, TrendingUp, UsersIcon } from "lucide-react";
-import FeaturedProject from "./featured-project";
+import ProjectCard from "./project-card";
+import FeaturedHeroCard from "./featured-card";
 
 const projectData = [
   {
@@ -54,10 +55,28 @@ export default function ProjectSection() {
             { name: "AI/ML", route: "/ai-ml" },
           ]}
         ></NavigationTags>
-        <div className="flex flex-col items-center justify-center text-center lg:py-8 py-5">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-12 max-w-4xl w-full">
+        <div className="max-w-7xl mx-auto px-4 py-8">
+          <h2 className="text-xl font-semibold text-slate-100 mb-6">
+            Discover Architecture
+          </h2>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {true && (
+              <div className="lg:col-span-2">
+                <FeaturedHeroCard project={projectData[0]} />
+              </div>
+            )}
+
+            <div className="flex flex-col gap-6">
+              {projectData.map((project) => (
+                <ProjectCard key={project.id} project={project} />
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
             {projectData.map((project) => (
-              <FeaturedProject key={project.id} project={project} />
+              <ProjectCard key={project.id} project={project} />
             ))}
           </div>
         </div>
