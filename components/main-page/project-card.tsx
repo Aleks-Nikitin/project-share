@@ -44,7 +44,7 @@ export default function ProjectCard({ project }: { project: Project }) {
               {/* will get data from clerk for the avatar icon 
               <AvatarImage src={project.avatar} alt={project.submittedBy} /> */}
               <AvatarFallback>
-                {project.submittedBy.charAt(0) || "A"}
+                {project?.submittedBy?.charAt(0) || "A"}
               </AvatarFallback>
             </Avatar>
             <span>{project.submittedBy}</span>
