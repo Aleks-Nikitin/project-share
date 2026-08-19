@@ -1,23 +1,11 @@
 import { FlameIcon, ArrowUpRightIcon, ChevronUpIcon } from "lucide-react";
 import Link from "next/link";
+import { products } from "@/src/schema";
+import { InferSelectModel } from "drizzle-orm";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-interface Project {
-  id: string;
-  title: string;
-  description: string;
-  voteCount: number;
-  tags: string[];
-  avatar: string;
-  name: string;
-  isFeatured: boolean;
-  previewImage?: string;
-  githubStars?: string;
-  statusBadge?: string;
-  submittedBy: string;
-  githubUrl?: string;
-}
+type Project = InferSelectModel<typeof products>;
 import {
   Card,
   CardAction,
@@ -53,8 +41,11 @@ export default function ProjectCard({ project }: { project: Project }) {
           </div>
           <div className="mt-3 text-sm text-muted-foreground flex justify-between items-center gap-4">
             <Avatar>
-              <AvatarImage src={project.avatar} alt={project.submittedBy} />
-              <AvatarFallback>{project.submittedBy.charAt(0)}</AvatarFallback>
+              {/* will get data from clerk for the avatar icon 
+              <AvatarImage src={project.avatar} alt={project.submittedBy} /> */}
+              <AvatarFallback>
+                {project.submittedBy.charAt(0) || "A"}
+              </AvatarFallback>
             </Avatar>
             <span>{project.submittedBy}</span>
 

@@ -9,7 +9,6 @@ import FeaturedHeroCard from "./featured-card";
 import { getProducts } from "@/src/queries/select";
 
 const projectData = await getProducts();
-console.log("projectData", projectData);
 
 export default function ProjectSection() {
   return (

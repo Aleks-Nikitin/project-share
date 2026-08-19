@@ -1,10 +1,12 @@
 import { ChevronUpIcon, StarIcon } from "lucide-react";
+import { products } from "@/src/schema";
+import { InferSelectModel } from "drizzle-orm";
 import Link from "next/link";
 import Image from "next/image";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Project } from "./ProjectCard";
+type Project = InferSelectModel<typeof products>;
 import {
   Card,
   CardDescription,
@@ -35,11 +37,13 @@ export default function FeaturedHeroCard({ project }: { project: Project }) {
         </div>
 
         <div className="relative w-full h-48 sm:h-64 rounded-lg overflow-hidden mb-4 border border-zinc-800 bg-black/50 shrink-0">
-          {project.previewImage ? (
+          {project.previewImageUrl ? (
             <Image
-              src={project.previewImage}
-              alt={project.title}
+              src={project.previewImageUrl}
+              alt={project.name}
+              loading="eager"
               fill
+              sizes="(max-width: 1024px) 100vw, 66vw"
               className="object-cover group-hover:scale-105 transition-transform duration-500"
             />
           ) : (
@@ -51,7 +55,7 @@ export default function FeaturedHeroCard({ project }: { project: Project }) {
 
         <CardHeader className="p-0 mb-4">
           <CardTitle className="text-xl sm:text-2xl font-bold text-white group-hover:text-emerald-400 transition-colors">
-            {project.title}
+            {project.name}
           </CardTitle>
           <CardDescription className="text-slate-400 text-sm mt-1">
             {project.description}
@@ -73,10 +77,9 @@ export default function FeaturedHeroCard({ project }: { project: Project }) {
 
           <div className="text-lg text-muted-foreground flex gap-5 justify-center p-4 items-center w-full mt-1">
             <Avatar className="h-7 w-7">
-              <AvatarImage src={project.avatar} alt={project.username} />
-              <AvatarFallback>
-                {project.username?.charAt(0) || "U"}
-              </AvatarFallback>
+              {/* will get data from clerk for the avatar icon 
+              <AvatarImage src={project.avatar} alt={project.submittedBy} /> */}
+              <AvatarFallback>{project.name?.charAt(0) || "U"}</AvatarFallback>
             </Avatar>
             <span className="text-slate-300 font-medium">
               {project.submittedBy}
