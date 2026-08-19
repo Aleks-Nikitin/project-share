@@ -7,14 +7,15 @@ interface Project {
   id: string;
   title: string;
   description: string;
-  votes: number;
+  voteCount: number;
   tags: string[];
   avatar: string;
-  username: string;
+  name: string;
   isFeatured: boolean;
   previewImage?: string;
   githubStars?: string;
   statusBadge?: string;
+  submittedBy: string;
   githubUrl?: string;
 }
 import {
@@ -35,7 +36,7 @@ export default function ProjectCard({ project }: { project: Project }) {
       <Card className="relative mx-auto w-full pt-0 bg-[#0B0F17] text-white">
         <div className=" bg-black/35" />
         <CardHeader className="">
-          <CardTitle className="pb-1">{project.title}</CardTitle>
+          <CardTitle className="pb-1">{project.name}</CardTitle>
           <CardDescription className="">{project.description}</CardDescription>
         </CardHeader>
         <CardFooter className="bg-[#0B0F17] py-0  pb-3 px-0 border-0 flex flex-col gap-2">
@@ -52,17 +53,17 @@ export default function ProjectCard({ project }: { project: Project }) {
           </div>
           <div className="mt-3 text-sm text-muted-foreground flex justify-between items-center gap-4">
             <Avatar>
-              <AvatarImage src={project.avatar} alt={project.username} />
-              <AvatarFallback>{project.username.charAt(0)}</AvatarFallback>
+              <AvatarImage src={project.avatar} alt={project.submittedBy} />
+              <AvatarFallback>{project.submittedBy.charAt(0)}</AvatarFallback>
             </Avatar>
-            <span>{project.username}</span>
+            <span>{project.submittedBy}</span>
 
             <Button
               size="lg"
               className="bg-[#0B0F17] text-lg text-white border border-zinc-800/80 hover:bg-[#182232]/80"
             >
               <ChevronUpIcon fill="currentColor" />
-              {project.votes}
+              {project.voteCount}
             </Button>
           </div>
         </CardFooter>
