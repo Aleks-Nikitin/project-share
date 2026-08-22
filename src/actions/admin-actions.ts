@@ -1,3 +1,4 @@
+"use server";
 import { db } from "../db";
 import { products } from "../schema";
 import { eq } from "drizzle-orm";

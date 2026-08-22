@@ -1,9 +1,25 @@
 "use client";
 import { FormField } from "./form-field";
 import { Button } from "../ui/button";
+import { addProductAction } from "@/src/actions/product-actions";
+import { useActionState } from "react";
+import { Loader2Icon } from "lucide-react";
+const initialState = {
+  success: false,
+  message: "",
+  error: {},
+};
+
 export default function ProjectSubmitForm() {
+  const [state, formAction, isPending] = useActionState(
+    addProductAction,
+    initialState,
+  );
   return (
-    <form className="flex flex-col gap-4 space-y-5 mx-auto max-w-lg">
+    <form
+      className="flex flex-col gap-4 space-y-5 mx-auto max-w-lg"
+      action={formAction}
+    >
       <div className="space-y-5">
         <FormField
           label="Project Name"
@@ -75,12 +91,17 @@ export default function ProjectSubmitForm() {
           error=""
         />
       </div>
+      {/* render all tags and add their selection later */}
       <Button
         size="lg"
         type="submit"
         className="mb-3.5 w-full text-base text-white px-8 py-6 shadow-lg bg-emerald-700 hover:bg-emerald-900"
       >
-        Submit Project
+        {isPending ? (
+          <Loader2Icon className="animate-spin" />
+        ) : (
+          <p>Submit Project</p>
+        )}
       </Button>
     </form>
   );
