@@ -1,6 +1,9 @@
 "use server";
 import { auth } from "@clerk/nextjs/server";
 import { productSchema } from "./product-validations";
+import { products } from "../schema";
+import { db } from "../db";
+import { z } from "zod";
 
 type FormState = {
   success: boolean;
@@ -15,11 +18,14 @@ export const addProductAction = async (
   console.log(formData);
   try {
     const { userId } = await auth();
+
     if (!userId)
       return {
         success: false,
         message: "You need to be signed in to submit a product",
       };
+    const user = await currentUser();
+    const userEmail = user?.emailAddresses[0]?.emailAddress || "anonymous";
     const rawFormData = Object.fromEntries(formData.entries());
     const validatedData = productSchema.safeParse(rawFormData);
     if (!validatedData.success) {
@@ -31,9 +37,43 @@ export const addProductAction = async (
         message: "Validation failed",
       };
     }
-    const data = validatedData.data;
+    const {
+      name,
+      tagline,
+      description,
+      website_url,
+      githubUrl,
+      previewImageUrl,
+      slug,
+      tags,
+    } = validatedData.data;
+    await db.insert(products).values({
+      name,
+      slug,
+      description,
+      tagline,
+      website_url,
+      githubUrl,
+      previewImageUrl,
+      userId,
+      tags: tags || [],
+      status: "pending",
+      submittedBy: userEmail,
+    });
+    return {
+      success: true,
+      message:
+        "Product added. It will be reviewed by our team and published soon.",
+    };
   } catch (error) {
     console.error(error);
+    if (error instanceof z.ZodError) {
+      return {
+        success: false,
+        errors: error.flatten().fieldErrors,
+        message: "Validation failed",
+      };
+    }
     return {
       success: false,
       errors: error,

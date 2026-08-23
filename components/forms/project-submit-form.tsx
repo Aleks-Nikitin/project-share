@@ -1,7 +1,9 @@
 "use client";
 import { FormField } from "./form-field";
+import { useState } from "react";
 import { Button } from "../ui/button";
 import { addProductAction } from "@/src/actions/product-actions";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useActionState } from "react";
 import { Loader2Icon } from "lucide-react";
 const initialState = {
@@ -9,15 +11,27 @@ const initialState = {
   message: "",
   error: {},
 };
+const AVAILABLE_TAGS = [
+  "Full-Stack",
+  "Frontend",
+  "Backend",
+  "Mobile",
+  "AI/ML",
+  "Next.js",
+  "React",
+  "Node.js",
+];
 
 export default function ProjectSubmitForm() {
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [state, formAction, isPending] = useActionState(
     addProductAction,
     initialState,
   );
+  const { errors, message, success } = state;
   return (
     <form
-      className="flex flex-col gap-4 space-y-5 mx-auto max-w-lg"
+      className="flex flex-col gap-4 space-y-5 mx-auto max-w-lg "
       action={formAction}
     >
       <div className="space-y-5">
@@ -27,7 +41,7 @@ export default function ProjectSubmitForm() {
           id="name"
           required
           placeholder="Enter project name"
-          error=""
+          error={errors?.name}
         />
       </div>
       <div className="space-y-5">
@@ -37,7 +51,7 @@ export default function ProjectSubmitForm() {
           id="slug"
           required
           placeholder="Your Slug"
-          error=""
+          error={errors?.slug}
         />
       </div>
       <div className="space-y-5">
@@ -47,7 +61,7 @@ export default function ProjectSubmitForm() {
           id="tagline"
           required
           placeholder="Your tagline"
-          error=""
+          error={errors?.tagline}
         />
       </div>
       <div className="space-y-5">
@@ -57,7 +71,7 @@ export default function ProjectSubmitForm() {
           id="description"
           required
           placeholder="Your description"
-          error=""
+          error={errors?.description}
           textarea
         />
       </div>
@@ -68,7 +82,7 @@ export default function ProjectSubmitForm() {
           id="website_url"
           required
           placeholder="Your website url"
-          error=""
+          error={errors?.website_url}
         />
       </div>
       <div className="space-y-5">
@@ -78,7 +92,7 @@ export default function ProjectSubmitForm() {
           id="githubUrl"
           required
           placeholder="Enter Your github url"
-          error=""
+          error={errors?.githubUrl}
         />
       </div>
       <div className="space-y-5">
@@ -88,10 +102,35 @@ export default function ProjectSubmitForm() {
           id="previewImageUrl"
           required
           placeholder="Enter Your preview image url"
-          error=""
+          error={errors?.previewImageUrl}
         />
       </div>
-      {/* render all tags and add their selection later */}
+      <div className="space-y-2">
+        <label className="text-lg font-bold text-white pb-5">
+          Project Tags
+        </label>
+
+        <ToggleGroup
+          multiple
+          value={selectedTags}
+          onValueChange={(value) => {
+            setSelectedTags(value);
+            console.log("selectedTags", selectedTags);
+          }}
+          className="flex flex-wrap justify-start gap-2 py-4"
+        >
+          {AVAILABLE_TAGS.map((tag) => (
+            <ToggleGroupItem
+              key={tag}
+              value={tag}
+              aria-label={`Toggle ${tag}`}
+              className="bg-[#182232] text-slate-300 border border-zinc-800 hover:bg-[#243246] aria-pressed:bg-emerald-700 aria-pressed:text-white aria-pressed:border-emerald-700 aria-pressed:hover:bg-emerald-900"
+            >
+              {tag}
+            </ToggleGroupItem>
+          ))}
+        </ToggleGroup>
+      </div>
       <Button
         size="lg"
         type="submit"
