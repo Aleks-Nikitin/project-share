@@ -2,14 +2,17 @@
 import { FormField } from "./form-field";
 import { useState } from "react";
 import { Button } from "../ui/button";
-import { addProductAction } from "@/src/actions/product-actions";
+import {
+  addProductAction,
+  type FormState,
+} from "@/src/actions/product-actions";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useActionState } from "react";
 import { Loader2Icon } from "lucide-react";
-const initialState = {
+const initialState: FormState = {
   success: false,
   message: "",
-  error: {},
+  errors: {} as Record<string, string[]>,
 };
 const AVAILABLE_TAGS = [
   "Full-Stack",
@@ -41,7 +44,7 @@ export default function ProjectSubmitForm() {
           id="name"
           required
           placeholder="Enter project name"
-          error={errors?.name}
+          error={errors?.name?.[0]}
         />
       </div>
       <div className="space-y-5">
@@ -51,7 +54,7 @@ export default function ProjectSubmitForm() {
           id="slug"
           required
           placeholder="Your Slug"
-          error={errors?.slug}
+          error={errors?.slug?.[0]}
         />
       </div>
       <div className="space-y-5">
@@ -61,7 +64,7 @@ export default function ProjectSubmitForm() {
           id="tagline"
           required
           placeholder="Your tagline"
-          error={errors?.tagline}
+          error={errors?.tagline?.[0]}
         />
       </div>
       <div className="space-y-5">
@@ -71,7 +74,7 @@ export default function ProjectSubmitForm() {
           id="description"
           required
           placeholder="Your description"
-          error={errors?.description}
+          error={errors?.description?.[0]}
           textarea
         />
       </div>
@@ -82,7 +85,7 @@ export default function ProjectSubmitForm() {
           id="website_url"
           required
           placeholder="Your website url"
-          error={errors?.website_url}
+          error={errors?.website_url?.[0]}
         />
       </div>
       <div className="space-y-5">
@@ -92,7 +95,7 @@ export default function ProjectSubmitForm() {
           id="githubUrl"
           required
           placeholder="Enter Your github url"
-          error={errors?.githubUrl}
+          error={errors?.githubUrl?.[0]}
         />
       </div>
       <div className="space-y-5">
@@ -102,7 +105,7 @@ export default function ProjectSubmitForm() {
           id="previewImageUrl"
           required
           placeholder="Enter Your preview image url"
-          error={errors?.previewImageUrl}
+          error={errors?.previewImageUrl?.[0]}
         />
       </div>
       <div className="space-y-2">
@@ -115,7 +118,6 @@ export default function ProjectSubmitForm() {
           value={selectedTags}
           onValueChange={(value) => {
             setSelectedTags(value);
-            console.log("selectedTags", selectedTags);
           }}
           className="flex flex-wrap justify-start gap-2 py-4"
         >
@@ -130,6 +132,9 @@ export default function ProjectSubmitForm() {
             </ToggleGroupItem>
           ))}
         </ToggleGroup>
+        {selectedTags.map((tag) => (
+          <input key={tag} type="hidden" name="tags" value={tag} />
+        ))}
       </div>
       <Button
         size="lg"

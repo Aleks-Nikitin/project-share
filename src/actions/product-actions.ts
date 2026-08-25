@@ -1,11 +1,11 @@
 "use server";
-import { auth } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { productSchema } from "./product-validations";
 import { products } from "../schema";
 import { db } from "../db";
 import { z } from "zod";
 
-type FormState = {
+export type FormState = {
   success: boolean;
   errors?: Record<string, string[]>;
   message: string;
@@ -14,7 +14,7 @@ type FormState = {
 export const addProductAction = async (
   prevState: FormState,
   formData: FormData,
-) => {
+): Promise<FormState> => {
   console.log(formData);
   try {
     const { userId } = await auth();
@@ -26,7 +26,10 @@ export const addProductAction = async (
       };
     const user = await currentUser();
     const userEmail = user?.emailAddresses[0]?.emailAddress || "anonymous";
-    const rawFormData = Object.fromEntries(formData.entries());
+    const rawFormData = {
+      ...Object.fromEntries(formData.entries()),
+      tags: formData.getAll("tags"),
+    };
     const validatedData = productSchema.safeParse(rawFormData);
     if (!validatedData.success) {
       const errors = validatedData.error.flatten().fieldErrors;
@@ -76,8 +79,7 @@ export const addProductAction = async (
     }
     return {
       success: false,
-      errors: error,
-      message: "Product added",
+      message: "Unable to add product",
     };
   }
 };

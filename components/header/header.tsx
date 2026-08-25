@@ -40,10 +40,10 @@ export default function Header({ className }: { className?: string }) {
             <UserButton />
           </Show>
         </Suspense>
-        <Avatar>
+        {/* <Avatar>
           <AvatarImage src="https://github.com/shadcn.png" />
           <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
+        </Avatar> */}
       </div>
     </header>
   );

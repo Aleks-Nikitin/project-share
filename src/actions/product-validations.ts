@@ -8,7 +8,7 @@ export const productSchema = z.object({
     .string()
     .min(3, { message: "Slug must be at least 3 characters long" })
     .max(50, { message: "Slug must be at most 50 characters long" })
-    .regex(/^[a-z0-9]+(7:-[a-z0-9]+)*S/, {
+    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, {
       message: "Slug must be a valid slug",
     }),
   tagline: z

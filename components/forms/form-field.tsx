@@ -23,7 +23,7 @@ export const FormField = ({
       | React.ChangeEvent<HTMLTextAreaElement>
       | React.ChangeEvent<HTMLInputElement>,
   ) => void;
-  error: string;
+  error?: string;
   value?: string;
 }) => {
   return (
