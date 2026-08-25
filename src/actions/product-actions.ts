@@ -17,13 +17,19 @@ export const addProductAction = async (
 ): Promise<FormState> => {
   console.log(formData);
   try {
-    const { userId } = await auth();
+    const { userId, orgId } = await auth();
 
     if (!userId)
       return {
         success: false,
         message: "You need to be signed in to submit a product",
       };
+    if (!orgId) {
+      return {
+        success: false,
+        message: "You need to be in an organization to submit a product",
+      };
+    }
     const user = await currentUser();
     const userEmail = user?.emailAddresses[0]?.emailAddress || "anonymous";
     const rawFormData = {
@@ -59,6 +65,7 @@ export const addProductAction = async (
       githubUrl,
       previewImageUrl,
       userId,
+      organizationId: orgId,
       tags: tags || [],
       status: "pending",
       submittedBy: userEmail,
