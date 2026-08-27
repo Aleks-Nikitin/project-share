@@ -2,9 +2,10 @@ import NavigationTags from "../common/navigation-tags";
 import ProjectCard from "./project-card";
 import FeaturedHeroCard from "./featured-card";
 import { getProducts } from "@/src/queries/select";
-
+import { auth } from "@clerk/nextjs/server";
 export default async function ProjectSection() {
-  const projectData = await getProducts();
+  const { userId } = await auth();
+  const projectData = await getProducts(userId);
 
   return (
     <section className="relative bg-[#0B0F17] overflow-hidden text-white py-8 px-4 sm:px-6 lg:px-8">

@@ -53,7 +53,8 @@ export default function ProjectCard({ project }: { project: Project }) {
 
             <VoteButton
               projectId={project.id}
-              voteCount={project.voteCount}
+              initialVoteCount={project.voteCount}
+              initialHasVoted={project.hasVoted}
             ></VoteButton>
           </div>
         </CardFooter>

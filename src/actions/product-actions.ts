@@ -6,7 +6,7 @@ import { db } from "../db";
 import { success, z } from "zod";
 import { eq, and, sql } from "drizzle-orm";
 import { FormState } from "./types";
-import { revalidatePath } from "next/cache";
+import { updateTag } from "next/cache";
 export const addProductAction = async (
   prevState: FormState,
   formData: FormData,
@@ -131,8 +131,7 @@ export const toggleVoteAction = async (productId: number) => {
         .where(eq(products.id, productId));
     }
 
-    revalidatePath("/");
-    revalidatePath(`/projects/${productId}`);
+    updateTag("products");
     return {
       success: true,
       message: hasVoted ? "Vote added" : "Vote removed",

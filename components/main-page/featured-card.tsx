@@ -85,10 +85,10 @@ export default function FeaturedHeroCard({ project }: { project: Project }) {
             <span className="text-slate-300 font-medium">
               {project.submittedBy}
             </span>
-
             <VoteButton
               projectId={project.id}
-              voteCount={project.voteCount}
+              initialVoteCount={project.voteCount}
+              initialHasVoted={project.hasVoted}
             ></VoteButton>
           </div>
         </CardFooter>
