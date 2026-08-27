@@ -1,10 +1,12 @@
 "use server";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { productSchema } from "./product-validations";
-import { products } from "../schema";
+import { products, productVotes } from "../schema";
 import { db } from "../db";
-import { z } from "zod";
+import { success, z } from "zod";
+import { eq, and, sql } from "drizzle-orm";
 import { FormState } from "./types";
+import { revalidatePath } from "next/cache";
 export const addProductAction = async (
   prevState: FormState,
   formData: FormData,
@@ -81,6 +83,65 @@ export const addProductAction = async (
     return {
       success: false,
       message: "Unable to add product",
+    };
+  }
+};
+export const toggleVoteAction = async (productId: number) => {
+  try {
+    const { userId } = await auth();
+
+    if (!userId) {
+      return {
+        success: false,
+        message: "You need to be signed in to vote",
+      };
+    }
+    const existingVote = await db
+      .select()
+      .from(productVotes)
+      .where(
+        and(
+          eq(productVotes.productId, productId),
+          eq(productVotes.userId, userId),
+        ),
+      )
+      .limit(1);
+    const hasVoted = existingVote.length > 0;
+    if (hasVoted) {
+      await db
+        .delete(productVotes)
+        .where(
+          and(
+            eq(productVotes.productId, productId),
+            eq(productVotes.userId, userId),
+          ),
+        );
+      await db
+        .update(products)
+        .set({ voteCount: sql`${products.voteCount} - 1` })
+        .where(eq(products.id, productId));
+    } else {
+      await db.insert(productVotes).values({
+        productId,
+        userId,
+      });
+      await db
+        .update(products)
+        .set({ voteCount: sql`${products.voteCount} + 1` })
+        .where(eq(products.id, productId));
+    }
+
+    revalidatePath("/");
+    revalidatePath(`/projects/${productId}`);
+    return {
+      success: true,
+      message: hasVoted ? "Vote added" : "Vote removed",
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      success: false,
+      message: "Unable to toggle vote",
     };
   }
 };

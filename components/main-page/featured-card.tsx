@@ -14,6 +14,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import VoteButton from "../common/vote-button";
 
 export default function FeaturedHeroCard({ project }: { project: Project }) {
   return (
@@ -85,13 +86,10 @@ export default function FeaturedHeroCard({ project }: { project: Project }) {
               {project.submittedBy}
             </span>
 
-            <Button
-              size="lg"
-              className="bg-[#0B0F17] text-lg text-white border border-zinc-800/80 hover:bg-[#182232]/80 flex items-center gap-1 px-3 py-1.5"
-            >
-              <ChevronUpIcon className="h-4 w-4" fill="currentColor" />
-              <span>{project.voteCount}</span>
-            </Button>
+            <VoteButton
+              projectId={project.id}
+              voteCount={project.voteCount}
+            ></VoteButton>
           </div>
         </CardFooter>
       </Card>

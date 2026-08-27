@@ -8,6 +8,7 @@ import {
   timestamp,
   uniqueIndex,
   varchar,
+  unique,
 } from "drizzle-orm/pg-core";
 
 export const products = pgTable(
@@ -40,5 +41,22 @@ export const products = pgTable(
     organizationIdx: index("products_organization_idx").on(
       table.organizationId,
     ),
+  }),
+);
+export const productVotes = pgTable(
+  "product_votes",
+  {
+    id: serial("id").primaryKey(),
+    productId: integer("product_id")
+      .notNull()
+      .references(() => products.id, { onDelete: "cascade" }),
+    userId: varchar("user_id", { length: 255 }).notNull(),
+  },
+  (table) => ({
+    userProductUnique: unique("user_product_unique_idx").on(
+      table.userId,
+      table.productId,
+    ),
+    productIdx: index("product_votes_product_idx").on(table.productId),
   }),
 );

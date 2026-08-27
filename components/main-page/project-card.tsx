@@ -5,6 +5,8 @@ import { InferSelectModel } from "drizzle-orm";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { toggleVoteAction } from "@/src/actions/product-actions";
+import VoteButton from "../common/vote-button";
 type Project = InferSelectModel<typeof products>;
 import {
   Card,
@@ -49,13 +51,10 @@ export default function ProjectCard({ project }: { project: Project }) {
             </Avatar>
             <span>{project.submittedBy}</span>
 
-            <Button
-              size="lg"
-              className="bg-[#0B0F17] text-lg text-white border border-zinc-800/80 hover:bg-[#182232]/80"
-            >
-              <ChevronUpIcon fill="currentColor" />
-              {project.voteCount}
-            </Button>
+            <VoteButton
+              projectId={project.id}
+              voteCount={project.voteCount}
+            ></VoteButton>
           </div>
         </CardFooter>
       </Card>
