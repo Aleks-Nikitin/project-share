@@ -19,7 +19,7 @@ import VoteButton from "../common/vote-button";
 export default function FeaturedHeroCard({ project }: { project: Project }) {
   return (
     <Link
-      href={`projects/${project.id}`}
+      href={`projects/${project.slug}`}
       className="block h-full group transition-transform duration-300"
     >
       <Card className="relative h-full flex flex-col justify-between p-6 bg-[#0B0F17] text-white border-zinc-800/80 hover:border-zinc-700">

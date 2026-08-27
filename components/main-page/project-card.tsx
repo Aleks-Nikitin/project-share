@@ -20,7 +20,7 @@ import {
 export default function ProjectCard({ project }: { project: Project }) {
   return (
     <Link
-      href={`projects/${project.id}`}
+      href={`projects/${project.slug}`}
       className="py-5 border-zinc-800/80 hover:scale-105 transition-transform duration-300"
     >
       <Card className="relative mx-auto w-full pt-0 bg-[#0B0F17] text-white">

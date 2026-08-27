@@ -144,3 +144,11 @@ export const toggleVoteAction = async (productId: number) => {
     };
   }
 };
+export const getProjectBySlug = async (slug: string) => {
+  const project = await db
+    .select()
+    .from(products)
+    .where(eq(products.slug, slug))
+    .limit(1);
+  return project[0];
+};
