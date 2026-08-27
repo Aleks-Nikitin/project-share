@@ -4,13 +4,7 @@ import { productSchema } from "./product-validations";
 import { products } from "../schema";
 import { db } from "../db";
 import { z } from "zod";
-
-export type FormState = {
-  success: boolean;
-  errors?: Record<string, string[]>;
-  message: string;
-};
-
+import { FormState } from "./types";
 export const addProductAction = async (
   prevState: FormState,
   formData: FormData,
@@ -66,7 +60,7 @@ export const addProductAction = async (
       previewImageUrl,
       userId,
       organizationId: orgId,
-      tags: tags || [],
+      tags: tags,
       status: "pending",
       submittedBy: userEmail,
     });

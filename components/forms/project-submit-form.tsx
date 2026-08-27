@@ -2,13 +2,11 @@
 import { FormField } from "./form-field";
 import { useState } from "react";
 import { Button } from "../ui/button";
-import {
-  addProductAction,
-  type FormState,
-} from "@/src/actions/product-actions";
+import { addProductAction } from "@/src/actions/product-actions";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useActionState } from "react";
 import { Loader2Icon } from "lucide-react";
+import { FormState } from "@/src/actions/types";
 const initialState: FormState = {
   success: false,
   message: "",
@@ -37,6 +35,15 @@ export default function ProjectSubmitForm() {
       className="flex flex-col gap-4 space-y-5 mx-auto max-w-lg "
       action={formAction}
     >
+      {message && (
+        <div
+          className={`p-3 text-sm text-center text-white rounded-lg ${success ? "bg-emerald-700" : "bg-red-700"}`}
+          role="alert"
+          area-live="polite"
+        >
+          {message}
+        </div>
+      )}
       <div className="space-y-5">
         <FormField
           label="Project Name"
@@ -44,7 +51,7 @@ export default function ProjectSubmitForm() {
           id="name"
           required
           placeholder="Enter project name"
-          error={errors?.name?.[0]}
+          error={errors?.name}
         />
       </div>
       <div className="space-y-5">
@@ -54,7 +61,7 @@ export default function ProjectSubmitForm() {
           id="slug"
           required
           placeholder="Your Slug"
-          error={errors?.slug?.[0]}
+          error={errors?.slug}
         />
       </div>
       <div className="space-y-5">
@@ -64,7 +71,7 @@ export default function ProjectSubmitForm() {
           id="tagline"
           required
           placeholder="Your tagline"
-          error={errors?.tagline?.[0]}
+          error={errors?.tagline}
         />
       </div>
       <div className="space-y-5">
@@ -74,7 +81,7 @@ export default function ProjectSubmitForm() {
           id="description"
           required
           placeholder="Your description"
-          error={errors?.description?.[0]}
+          error={errors?.description}
           textarea
         />
       </div>
@@ -85,7 +92,7 @@ export default function ProjectSubmitForm() {
           id="website_url"
           required
           placeholder="Your website url"
-          error={errors?.website_url?.[0]}
+          error={errors?.website_url}
         />
       </div>
       <div className="space-y-5">
@@ -95,7 +102,7 @@ export default function ProjectSubmitForm() {
           id="githubUrl"
           required
           placeholder="Enter Your github url"
-          error={errors?.githubUrl?.[0]}
+          error={errors?.githubUrl}
         />
       </div>
       <div className="space-y-5">
@@ -105,7 +112,7 @@ export default function ProjectSubmitForm() {
           id="previewImageUrl"
           required
           placeholder="Enter Your preview image url"
-          error={errors?.previewImageUrl?.[0]}
+          error={errors?.previewImageUrl}
         />
       </div>
       <div className="space-y-2">

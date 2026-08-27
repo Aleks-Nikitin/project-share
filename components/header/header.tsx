@@ -1,10 +1,11 @@
 import { SquareTerminal } from "lucide-react";
 import Link from "next/link";
 import { buttonVariants } from "../ui/button";
-import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
+import { Show, SignInButton, SignUpButton } from "@clerk/nextjs";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { cn } from "@/lib/utils";
 import SearchBar from "@/components/header/search-bar";
+import ClerkUserButton from "@/components/header/clerk-user-button";
 import { Suspense } from "react";
 export default function Header({ className }: { className?: string }) {
   return (
@@ -37,9 +38,9 @@ export default function Header({ className }: { className?: string }) {
             >
               Submit Project
             </Link>
-            <UserButton />
           </Show>
         </Suspense>
+        <ClerkUserButton />
         {/* <Avatar>
           <AvatarImage src="https://github.com/shadcn.png" />
           <AvatarFallback>CN</AvatarFallback>

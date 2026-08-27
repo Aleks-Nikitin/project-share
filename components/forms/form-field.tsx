@@ -23,7 +23,7 @@ export const FormField = ({
       | React.ChangeEvent<HTMLTextAreaElement>
       | React.ChangeEvent<HTMLInputElement>,
   ) => void;
-  error?: string;
+  error?: string[];
   value?: string;
 }) => {
   return (
@@ -54,7 +54,7 @@ export const FormField = ({
           className="bg-slate-800/60 text-slate-300 border-slate-700/50  pl-5 pr-4 border-0 focus-visible:ring-2 focus-visible:ring-emerald-500/40 focus-visible:ring-offset-0 shadow-[0_0_15px_rgba(16,185,129,0.15)]"
         ></Input>
       )}
-      {error && <p className="text-destructive text-sm">{error}</p>}
+      {error && <p className="text-destructive text-sm">{error?.join(",")}</p>}
     </div>
   );
 };
