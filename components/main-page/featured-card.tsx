@@ -1,11 +1,7 @@
-import { ChevronUpIcon, StarIcon } from "lucide-react";
-import { products } from "@/src/schema";
-import { InferSelectModel } from "drizzle-orm";
 import Link from "next/link";
 import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-type Project = InferSelectModel<typeof products>;
+import { Avatar, AvatarFallback } from "../ui/avatar";
+import { ProductWithVote } from "@/src/types/product";
 import {
   Card,
   CardDescription,
@@ -14,82 +10,76 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import VoteButton from "../common/vote-button";
+import ProjectMetaBadges from "../common/project-meta-badges";
 
-export default function FeaturedHeroCard({ project }: { project: Project }) {
+export default function FeaturedHeroCard({
+  project,
+}: {
+  project: ProductWithVote;
+}) {
   return (
-    <Link
-      href={`projects/${project.slug}`}
-      className="block h-full group transition-transform duration-300"
-    >
-      <Card className="relative h-full flex flex-col justify-between p-6 bg-[#0B0F17] text-white border-zinc-800/80 hover:border-zinc-700">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2 bg-black/40 px-3 py-1 rounded-full border border-zinc-800">
-            <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-xs font-medium text-slate-300">
-              Production Ready
-            </span>
-          </div>
-
-          <div className="flex items-center gap-1 text-sm font-mono text-amber-400 bg-black/40 px-2.5 py-1 rounded-md border border-zinc-800">
-            <StarIcon className="h-3.5 w-3.5 fill-amber-400" />
-            <span>1.4k</span>
-          </div>
+    <Card className="relative flex h-full flex-col justify-between border-zinc-800/80 bg-[#0B0F17] p-6 text-white hover:border-zinc-700">
+      <Link
+        href={`projects/${project.slug}`}
+        className="group block flex-1 transition-transform duration-300"
+      >
+        <div className="mb-4 flex items-center justify-between">
+          <ProjectMetaBadges
+            badgeStatus={project.badgeStatus}
+            githubStars={project.githubStars}
+          />
         </div>
 
-        <div className="relative w-full h-48 sm:h-64 rounded-lg overflow-hidden mb-4 border border-zinc-800 bg-black/50 shrink-0">
+        <div className="relative mb-4 h-48 w-full shrink-0 overflow-hidden rounded-lg border border-zinc-800 bg-black/50 sm:h-64">
           {project.previewImageUrl ? (
             <img
               src={project.previewImageUrl}
               alt={project.name}
               loading="eager"
-              className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
           ) : (
-            <div className="flex items-center justify-center h-full text-xs text-zinc-600 font-mono">
+            <div className="flex h-full items-center justify-center font-mono text-xs text-zinc-600">
               [Preview Architecture Graphic]
             </div>
           )}
         </div>
 
-        <CardHeader className="p-0 mb-4">
-          <CardTitle className="text-xl sm:text-2xl font-bold text-white group-hover:text-emerald-400 transition-colors">
+        <CardHeader className="mb-4 p-0">
+          <CardTitle className="text-xl font-bold text-white transition-colors group-hover:text-emerald-400 sm:text-2xl">
             {project.name}
           </CardTitle>
-          <CardDescription className="text-slate-400 text-sm mt-1">
+          <CardDescription className="mt-1 text-sm text-slate-400">
             {project.description}
           </CardDescription>
         </CardHeader>
 
-        <CardFooter className="bg-[#0B0F17] p-0 border-0 flex flex-col gap-3 pt-4 border-t border-zinc-800/60">
-          <div className="flex flex-wrap gap-2">
-            {(project.tags || []).map((tag) => (
-              <Badge
-                variant="secondary"
-                key={tag}
-                className="text-lg p-4 bg-[#182232] text-white border border-zinc-800/80"
-              >
-                {tag}
-              </Badge>
-            ))}
-          </div>
+        <div className="flex flex-wrap gap-2 pb-4">
+          {(project.tags || []).map((tag) => (
+            <Badge
+              variant="secondary"
+              key={tag}
+              className="border border-zinc-800/80 bg-[#182232] p-4 text-lg text-white"
+            >
+              {tag}
+            </Badge>
+          ))}
+        </div>
+      </Link>
 
-          <div className="text-lg text-muted-foreground flex gap-5 justify-center p-4 items-center w-full mt-1">
-            <Avatar className="h-7 w-7">
-              {/* will get data from clerk for the avatar icon 
-              <AvatarImage src={project.avatar} alt={project.submittedBy} /> */}
-              <AvatarFallback>{project.name?.charAt(0) || "U"}</AvatarFallback>
-            </Avatar>
-            <span className="text-slate-300 font-medium">
-              {project.submittedBy}
-            </span>
-            <VoteButton
-              projectId={project.id}
-              initialVoteCount={project.voteCount}
-              initialHasVoted={project.hasVoted}
-            ></VoteButton>
-          </div>
-        </CardFooter>
-      </Card>
-    </Link>
+      <CardFooter className="mt-1 flex flex-col gap-3 border-0 border-t border-zinc-800/60 bg-[#0B0F17] p-0 pt-4">
+        <div className="text-muted-foreground flex w-full items-center justify-center gap-5 p-4 text-lg">
+          <Avatar className="h-7 w-7">
+            <AvatarFallback>{project.name?.charAt(0) || "U"}</AvatarFallback>
+          </Avatar>
+          <span className="font-medium text-slate-300">{project.submittedBy}</span>
+          <VoteButton
+            projectId={project.id}
+            initialVoteCount={project.voteCount}
+            initialHasVoted={project.hasVoted}
+          />
+        </div>
+      </CardFooter>
+    </Card>
   );
 }

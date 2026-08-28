@@ -1,15 +1,23 @@
-import { and, desc, eq, ilike, or, sql } from "drizzle-orm";
+import { and, desc, eq, gt, ilike, or, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 import { db } from "../db";
 import { products, productVotes } from "../schema";
+import {
+  isPopularFilter,
+  tagSlugToFilterName,
+} from "@/lib/project-utils";
 
 export async function getProducts(
   userId?: string | null,
   searchQuery?: string,
+  tagSlug?: string,
 ) {
   "use cache";
   cacheLife("minutes");
   cacheTag("products");
+
+  const tagFilter = tagSlugToFilterName(tagSlug);
+  const popularOnly = isPopularFilter(tagSlug);
 
   const rows = await db
     .select({
@@ -24,6 +32,13 @@ export async function getProducts(
     .where(
       and(
         eq(products.status, "approved"),
+        popularOnly ? gt(products.voteCount, 0) : undefined,
+        tagFilter
+          ? sql`EXISTS (
+              SELECT 1 FROM jsonb_array_elements_text(${products.tags}) AS tag
+              WHERE lower(tag) = lower(${tagFilter})
+            )`
+          : undefined,
         searchQuery?.trim()
           ? or(
               ilike(products.name, `%${searchQuery.trim()}%`),
@@ -36,8 +51,23 @@ export async function getProducts(
       ),
     )
     .orderBy(desc(products.voteCount));
+
   return rows.map(({ product, hasVoted }) => ({
     ...product,
     hasVoted: Boolean(hasVoted),
   }));
+}
+
+export async function getProjectBySlug(slug: string) {
+  "use cache";
+  cacheLife("minutes");
+  cacheTag("products");
+
+  const rows = await db
+    .select()
+    .from(products)
+    .where(eq(products.slug, slug))
+    .limit(1);
+
+  return rows[0] ?? null;
 }

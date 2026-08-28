@@ -1,14 +1,12 @@
-"use cache";
-
-import { getProducts } from "@/src/queries/select";
-import { getProjectBySlug } from "@/src/actions/product-actions";
+import { getProducts, getProjectBySlug } from "@/src/queries/select";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ExternalLink, FolderGitIcon } from "lucide-react";
 import VoteButton from "@/components/common/vote-button";
+import ProjectMetaBadges from "@/components/common/project-meta-badges";
 import { Badge } from "@/components/ui/badge";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { buttonVariants } from "@/components/ui/button";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 
 export const generateStaticParams = async () => {
@@ -29,6 +27,7 @@ export default async function ProjectPage({
   if (!project) {
     return notFound();
   }
+
   const {
     id,
     name,
@@ -40,22 +39,25 @@ export default async function ProjectPage({
     tags,
     submittedBy,
     voteCount,
-    hasVoted,
+    badgeStatus,
+    githubStars,
+    organizationId,
   } = project;
 
   return (
     <main className="max-w-4xl mx-auto px-4 py-12 md:py-20 text-white min-h-screen">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-8 border-b border-zinc-800/80">
-        <div className="space-y-2">
+        <div className="space-y-3">
           <h1 className="text-4xl font-bold tracking-tight">{name}</h1>
           {tagline && <p className="text-xl text-zinc-400">{tagline}</p>}
+          <ProjectMetaBadges
+            badgeStatus={badgeStatus}
+            githubStars={githubStars}
+            size="compact"
+          />
         </div>
         <div className="shrink-0">
-          <VoteButton
-            projectId={id}
-            initialVoteCount={voteCount}
-            initialHasVoted={hasVoted}
-          />
+          <VoteButton projectId={id} initialVoteCount={voteCount} />
         </div>
       </div>
 
@@ -77,7 +79,9 @@ export default async function ProjectPage({
         <div className="flex flex-wrap gap-4">
           {website_url && (
             <Link
-              href="/submit"
+              href={website_url}
+              target="_blank"
+              rel="noopener noreferrer"
               className={cn(
                 buttonVariants({ variant: "default", size: "lg" }),
                 "text-base text-white px-8 shadow-lg bg-emerald-700 hover:bg-emerald-900",
@@ -90,7 +94,9 @@ export default async function ProjectPage({
 
           {githubUrl && (
             <Link
-              href="/submit"
+              href={githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className={cn(
                 buttonVariants({ variant: "default", size: "lg" }),
                 "text-base text-white px-8 shadow-lg bg-emerald-700 hover:bg-emerald-900",
@@ -128,6 +134,15 @@ export default async function ProjectPage({
                   </Badge>
                 ))}
               </div>
+            </div>
+          )}
+
+          {organizationId && (
+            <div className="pt-6 border-t border-zinc-800/80">
+              <h3 className="text-sm font-medium text-zinc-500 mb-2">
+                Organization
+              </h3>
+              <p className="font-mono text-sm text-slate-300">{organizationId}</p>
             </div>
           )}
         </div>

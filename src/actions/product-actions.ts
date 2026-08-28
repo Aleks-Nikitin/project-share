@@ -7,6 +7,7 @@ import { success, z } from "zod";
 import { eq, and, sql } from "drizzle-orm";
 import { FormState } from "./types";
 import { updateTag } from "next/cache";
+import { fetchGithubStars } from "@/lib/project-utils";
 export const addProductAction = async (
   prevState: FormState,
   formData: FormData,
@@ -52,6 +53,12 @@ export const addProductAction = async (
       slug,
       tags,
     } = validatedData.data;
+
+    let githubStars = 0;
+    if (githubUrl) {
+      githubStars = await fetchGithubStars(githubUrl);
+    }
+
     await db.insert(products).values({
       name,
       slug,
@@ -59,6 +66,7 @@ export const addProductAction = async (
       tagline,
       website_url,
       githubUrl,
+      githubStars,
       previewImageUrl,
       userId,
       organizationId: orgId,
@@ -86,6 +94,31 @@ export const addProductAction = async (
     };
   }
 };
+export const getUserVoteStatus = async (productId: number) => {
+  try {
+    const { userId } = await auth();
+
+    if (!userId) {
+      return { hasVoted: false };
+    }
+
+    const existingVote = await db
+      .select({ id: productVotes.id })
+      .from(productVotes)
+      .where(
+        and(
+          eq(productVotes.productId, productId),
+          eq(productVotes.userId, userId),
+        ),
+      )
+      .limit(1);
+
+    return { hasVoted: existingVote.length > 0 };
+  } catch {
+    return { hasVoted: false };
+  }
+};
+
 export const toggleVoteAction = async (productId: number) => {
   try {
     const { userId } = await auth();
@@ -134,7 +167,8 @@ export const toggleVoteAction = async (productId: number) => {
     updateTag("products");
     return {
       success: true,
-      message: hasVoted ? "Vote added" : "Vote removed",
+      hasVoted: !hasVoted,
+      message: hasVoted ? "Vote removed" : "Vote added",
     };
   } catch (error) {
     console.error(error);
@@ -143,12 +177,4 @@ export const toggleVoteAction = async (productId: number) => {
       message: "Unable to toggle vote",
     };
   }
-};
-export const getProjectBySlug = async (slug: string) => {
-  const project = await db
-    .select()
-    .from(products)
-    .where(eq(products.slug, slug))
-    .limit(1);
-  return project[0];
 };

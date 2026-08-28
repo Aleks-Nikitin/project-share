@@ -29,8 +29,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col">
         <ClerkProvider>
           <Header className="sticky top-0 z-50 bg-[#0B0F17]" />
+          {children}
         </ClerkProvider>
-        {children}
       </body>
     </html>
   );

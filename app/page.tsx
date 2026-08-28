@@ -5,7 +5,7 @@ import ProjectSkeleton from "@/components/main-page/project-skeleton";
 export default function Home({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string }>;
+  searchParams: Promise<{ q?: string; tag?: string }>;
 }) {
   return (
     <div className="">

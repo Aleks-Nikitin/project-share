@@ -3,30 +3,25 @@ import ProjectCard from "./project-card";
 import FeaturedHeroCard from "./featured-card";
 import { getProducts } from "@/src/queries/select";
 import { auth } from "@clerk/nextjs/server";
+import { NAV_TAG_SLUGS } from "@/lib/project-utils";
 
 export default async function ProjectSection({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string }>;
+  searchParams: Promise<{ q?: string; tag?: string }>;
 }) {
   const { userId } = await auth();
-  const { q: searchQuery } = await searchParams;
-  const projectData = await getProducts(userId, searchQuery);
+  const { q: searchQuery, tag: activeTag } = await searchParams;
+  const projectData = await getProducts(userId, searchQuery, activeTag);
 
   return (
     <section className="relative bg-[#0B0F17] overflow-hidden text-white py-8 px-4 sm:px-6 lg:px-8">
       <div className="wrapper">
         <NavigationTags
-          tags={[
-            { name: "All", route: "/" },
-            { name: "Popular", route: "/popular" },
-            { name: "Full-Stack", route: "/full-stack" },
-            { name: "Frontend", route: "/frontend" },
-            { name: "Backend", route: "/backend" },
-            { name: "Mobile", route: "/mobile" },
-            { name: "AI/ML", route: "/ai-ml" },
-          ]}
-        ></NavigationTags>
+          tags={[...NAV_TAG_SLUGS]}
+          activeTag={activeTag}
+          searchQuery={searchQuery}
+        />
         <div className="max-w-7xl mx-auto px-4 py-8">
           <h2 className="text-xl font-semibold text-slate-100 mb-6">
             Discover Architecture
