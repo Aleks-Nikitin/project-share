@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${inika.variable}  h-full antialiased`}>
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col bg-[#0B0F17] text-white">
         <ClerkProvider>
           <Header className="sticky top-0 z-50 bg-[#0B0F17]" />
           {children}

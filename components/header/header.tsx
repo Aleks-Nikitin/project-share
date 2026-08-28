@@ -43,10 +43,6 @@ export default function Header({ className }: { className?: string }) {
           </Show>
         </Suspense>
         <ClerkUserButton />
-        {/* <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar> */}
       </div>
     </header>
   );
