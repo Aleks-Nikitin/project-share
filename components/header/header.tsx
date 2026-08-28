@@ -17,7 +17,9 @@ export default function Header({ className }: { className?: string }) {
             Project Share
           </span>
         </Link>
-        <SearchBar placeholder="Search projects..." />
+        <Suspense fallback={<div className="h-10 w-full max-w-sm" />}>
+          <SearchBar placeholder="Search projects..." />
+        </Suspense>
 
         <Suspense fallback={<div className="text-white">Loading...</div>}>
           <Show when="signed-out">

@@ -2,7 +2,6 @@ import { ChevronUpIcon, StarIcon } from "lucide-react";
 import { products } from "@/src/schema";
 import { InferSelectModel } from "drizzle-orm";
 import Link from "next/link";
-import Image from "next/image";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -39,13 +38,11 @@ export default function FeaturedHeroCard({ project }: { project: Project }) {
 
         <div className="relative w-full h-48 sm:h-64 rounded-lg overflow-hidden mb-4 border border-zinc-800 bg-black/50 shrink-0">
           {project.previewImageUrl ? (
-            <Image
+            <img
               src={project.previewImageUrl}
               alt={project.name}
               loading="eager"
-              fill
-              sizes="(max-width: 1024px) 100vw, 66vw"
-              className="object-cover group-hover:scale-105 transition-transform duration-500"
+              className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
           ) : (
             <div className="flex items-center justify-center h-full text-xs text-zinc-600 font-mono">
