@@ -15,15 +15,15 @@ export default async function ProjectSection({
   const projectData = await getProducts(userId, searchQuery, activeTag);
 
   return (
-    <section className="relative bg-[#0B0F17] overflow-hidden text-white py-8 px-4 sm:px-6 lg:px-8">
+    <section className="relative overflow-hidden bg-[#0B0F17] px-3 py-6 text-white min-[750px]:px-6 min-[750px]:py-8 lg:px-8">
       <div className="wrapper">
         <NavigationTags
           tags={[...NAV_TAG_SLUGS]}
           activeTag={activeTag}
           searchQuery={searchQuery}
         />
-        <div className="max-w-7xl mx-auto px-4 py-8">
-          <h2 className="text-xl font-semibold text-slate-100 mb-6">
+        <div className="mx-auto max-w-7xl py-4 min-[750px]:py-8">
+          <h2 className="mb-4 text-lg font-semibold text-slate-100 min-[750px]:mb-6 min-[750px]:text-xl">
             Discover Architecture
           </h2>
 
@@ -33,19 +33,19 @@ export default async function ProjectSection({
             </p>
           ) : (
             <>
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 gap-4 min-[750px]:gap-6 lg:grid-cols-3">
                 <div className="lg:col-span-2">
                   <FeaturedHeroCard project={projectData[0]} />
                 </div>
 
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-4 min-[750px]:gap-6">
                   {projectData.slice(1, 3).map((project) => (
                     <ProjectCard key={project.id} project={project} />
                   ))}
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+              <div className="mt-4 grid grid-cols-1 gap-4 min-[750px]:mt-6 min-[750px]:grid-cols-2 min-[750px]:gap-6 lg:grid-cols-3">
                 {projectData.slice(3).map((project) => (
                   <ProjectCard key={project.id} project={project} />
                 ))}

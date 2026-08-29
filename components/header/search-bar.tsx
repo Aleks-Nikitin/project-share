@@ -41,7 +41,7 @@ export default function SearchBar({ placeholder }: { placeholder: string }) {
   }, [pathname, router, searchParams, searchQuery]);
 
   return (
-    <div className="relative w-full max-w-sm flex items-center  ">
+    <div className="relative flex w-full items-center min-[750px]:max-w-sm">
       <Search className="absolute left-3 h-4 w-4 text-muted-foreground pointer-events-none" />
       <Input
         type="search"

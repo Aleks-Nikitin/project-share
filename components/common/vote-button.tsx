@@ -9,8 +9,8 @@ import { Button } from "../ui/button";
 import { ChevronUpIcon } from "lucide-react";
 import { useEffect, useRef, useState, useTransition } from "react";
 
-function voteButtonClass(hasVoted: boolean, extra = "") {
-  return `text-lg border transition-colors ${extra} ${
+function voteButtonClass(hasVoted: boolean, compact: boolean, extra = "") {
+  return `${compact ? "text-sm" : "text-lg"} border transition-colors ${extra} ${
     hasVoted
       ? "bg-emerald-600 text-white border-emerald-500 hover:bg-emerald-700"
       : "bg-[#0B0F17] text-white border-zinc-800/80 hover:bg-[#182232]/80"
@@ -21,10 +21,12 @@ export default function VoteButton({
   projectId,
   initialVoteCount,
   initialHasVoted = false,
+  compact = false,
 }: {
   projectId: number;
   initialVoteCount: number;
   initialHasVoted?: boolean;
+  compact?: boolean;
 }) {
   const { isSignedIn, isLoaded } = useAuth();
   const [isPending, startTransition] = useTransition();
@@ -55,12 +57,14 @@ export default function VoteButton({
     };
   }, [projectId, isLoaded, isSignedIn]);
 
+  const buttonSize = compact ? "sm" : "lg";
+
   if (!isLoaded) {
     return (
       <Button
-        size="lg"
+        size={buttonSize}
         disabled
-        className={voteButtonClass(false, "opacity-50")}
+        className={voteButtonClass(false, compact, "opacity-50")}
       >
         <ChevronUpIcon fill="currentColor" />
         {voteCount}
@@ -73,12 +77,13 @@ export default function VoteButton({
       <SignInButton mode="modal">
         <Button
           type="button"
-          size="lg"
+          size={buttonSize}
           title="Sign in to vote"
           aria-label="Sign in to vote"
           onClick={(e) => e.stopPropagation()}
           className={voteButtonClass(
             false,
+            compact,
             "cursor-pointer opacity-60 hover:opacity-80",
           )}
         >
@@ -92,7 +97,7 @@ export default function VoteButton({
   return (
     <Button
       type="button"
-      size="lg"
+      size={buttonSize}
       disabled={isPending}
       onClick={(e) => {
         e.preventDefault();
@@ -125,7 +130,7 @@ export default function VoteButton({
           }
         });
       }}
-      className={voteButtonClass(hasVoted)}
+      className={voteButtonClass(hasVoted, compact)}
     >
       <ChevronUpIcon fill="currentColor" />
       {voteCount}

@@ -26,7 +26,7 @@ export default function NavigationTags({
           return (
             <Link href={buildTagHref(tag.slug, searchQuery)} key={tag.name}>
               <span
-                className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
+                className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors min-[750px]:px-4 min-[750px]:py-2 min-[750px]:text-sm ${
                   isActive
                     ? "border-emerald-500/60 bg-emerald-500/15 text-emerald-400"
                     : "border-zinc-800/80 bg-primary/10 text-white hover:bg-[#1a1d27]"
