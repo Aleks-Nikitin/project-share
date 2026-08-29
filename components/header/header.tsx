@@ -18,7 +18,7 @@ export default function Header({ className }: { className?: string }) {
       <div className="flex items-center justify-between gap-2 min-[750px]:gap-4">
         <Link href="/" className="flex shrink-0 items-center gap-2">
           <SquareTerminal className="h-6 w-6 text-emerald-400" />
-          <span className="hidden text-lg font-bold tracking-tight text-white min-[750px]:inline">
+          <span className="hidden text-lg font-bold tracking-tight text-white min-[850px]:inline">
             Project Share
           </span>
         </Link>

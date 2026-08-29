@@ -1,5 +1,6 @@
-import { getProducts, getProjectBySlug } from "@/src/queries/select";
+import { getProjectBySlug } from "@/src/queries/select";
 import { notFound } from "next/navigation";
+import { connection } from "next/server";
 import Link from "next/link";
 import { ExternalLink, FolderGitIcon } from "lucide-react";
 import VoteButton from "@/components/common/vote-button";
@@ -9,18 +10,14 @@ import { buttonVariants } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 
-export const generateStaticParams = async () => {
-  const projects = await getProducts();
-  return projects.map((project) => ({
-    slug: project.slug.toString(),
-  }));
-};
+export const instant = false;
 
 export default async function ProjectPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
+  await connection();
   const { slug } = await params;
   const project = await getProjectBySlug(slug);
 

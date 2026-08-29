@@ -57,7 +57,7 @@ export default function VoteButton({
     };
   }, [projectId, isLoaded, isSignedIn]);
 
-  const buttonSize = compact ? "sm" : "lg";
+  const buttonSize = "lg";
 
   if (!isLoaded) {
     return (
@@ -130,7 +130,7 @@ export default function VoteButton({
           }
         });
       }}
-      className={voteButtonClass(hasVoted, compact)}
+      className={voteButtonClass(hasVoted, compact, "hover:cursor-pointer")}
     >
       <ChevronUpIcon fill="currentColor" />
       {voteCount}
